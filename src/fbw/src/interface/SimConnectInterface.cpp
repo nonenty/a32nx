@@ -279,8 +279,12 @@ bool SimConnectInterface::getIsAutothrottlesArmed() {
   return isAutothrustArmed;
 }
 
-bool SimConnectInterface::getIsReverseToggleActive() {
-  return isReverseToggleActive;
+bool SimConnectInterface::getIsAnyReverseToggleActive() {
+  return isReverseToggleActive || isReverseToggleKeyActive[0] || isReverseToggleKeyActive[1];
+}
+
+bool SimConnectInterface::getIsReverseToggleActive(int index) {
+  return isReverseToggleActive || isReverseToggleKeyActive[index];
 }
 
 void SimConnectInterface::simConnectProcessDispatchMessage(SIMCONNECT_RECV* pData, DWORD* cbData) {
@@ -347,13 +351,23 @@ void SimConnectInterface::simConnectProcessEvent(const SIMCONNECT_RECV* pData) {
       break;
 
     case 7:
+      if (!useReverseOnAxis && !isReverseToggleActive) {
+        isReverseToggleKeyActive[0] = false;
+        isReverseToggleKeyActive[1] = false;
+      }
       simInputThrottles.throttles[0] = static_cast<long>(event->dwData) / 16384.0;
       simInputThrottles.throttles[1] = static_cast<long>(event->dwData) / 16384.0;
       break;
     case 8:
+      if (!useReverseOnAxis && !isReverseToggleActive) {
+        isReverseToggleKeyActive[0] = false;
+      }
       simInputThrottles.throttles[0] = static_cast<long>(event->dwData) / 16384.0;
       break;
     case 9:
+      if (!useReverseOnAxis && !isReverseToggleActive) {
+        isReverseToggleKeyActive[1] = false;
+      }
       simInputThrottles.throttles[1] = static_cast<long>(event->dwData) / 16384.0;
       break;
 
@@ -363,66 +377,92 @@ void SimConnectInterface::simConnectProcessEvent(const SIMCONNECT_RECV* pData) {
       break;
     case 11:
       isReverseToggleActive = false;
+      isReverseToggleKeyActive[0] = false;
+      isReverseToggleKeyActive[1] = false;
       simInputThrottles.throttles[0] = idleThrottleInput;
       simInputThrottles.throttles[1] = idleThrottleInput;
       break;
     case 12:
       if (!useReverseOnAxis) {
         // check if we have reached the minimum -> toggle reverse
-        if (simInputThrottles.throttles[0] == -1.0 || simInputThrottles.throttles[1] == -1.0) {
-          isReverseToggleActive = !isReverseToggleActive;
+        if (simInputThrottles.throttles[0] == -1.0) {
+          isReverseToggleKeyActive[0] = !isReverseToggleKeyActive[0];
+        }
+        if (simInputThrottles.throttles[1] == -1.0) {
+          isReverseToggleKeyActive[1] = !isReverseToggleKeyActive[1];
         }
       }
-      if (isReverseToggleActive) {
+      if (isReverseToggleActive | isReverseToggleKeyActive[0]) {
         simInputThrottles.throttles[0] = max(-1.0, simInputThrottles.throttles[0] - 0.1);
-        simInputThrottles.throttles[1] = max(-1.0, simInputThrottles.throttles[1] - 0.1);
       } else {
         simInputThrottles.throttles[0] = min(1.0, simInputThrottles.throttles[0] + 0.1);
+      }
+      if (isReverseToggleActive | isReverseToggleKeyActive[1]) {
+        simInputThrottles.throttles[1] = max(-1.0, simInputThrottles.throttles[1] - 0.1);
+      } else {
         simInputThrottles.throttles[1] = min(1.0, simInputThrottles.throttles[1] + 0.1);
       }
       break;
     case 13:
       if (!useReverseOnAxis) {
         // check if we have reached the minimum -> toggle reverse
-        if (simInputThrottles.throttles[0] == -1.0 || simInputThrottles.throttles[1] == -1.0) {
-          isReverseToggleActive = !isReverseToggleActive;
+        if (simInputThrottles.throttles[0] == -1.0) {
+          isReverseToggleKeyActive[0] = !isReverseToggleKeyActive[0];
+        }
+        if (simInputThrottles.throttles[1] == -1.0) {
+          isReverseToggleKeyActive[1] = !isReverseToggleKeyActive[1];
         }
       }
-      if (isReverseToggleActive) {
+      if (isReverseToggleActive | isReverseToggleKeyActive[0]) {
         simInputThrottles.throttles[0] = min(1.0, simInputThrottles.throttles[0] + 0.1);
-        simInputThrottles.throttles[1] = min(1.0, simInputThrottles.throttles[1] + 0.1);
       } else {
         simInputThrottles.throttles[0] = max(-1.0, simInputThrottles.throttles[0] - 0.1);
+      }
+      if (isReverseToggleActive | isReverseToggleKeyActive[1]) {
+        simInputThrottles.throttles[1] = min(1.0, simInputThrottles.throttles[1] + 0.1);
+      } else {
         simInputThrottles.throttles[1] = max(-1.0, simInputThrottles.throttles[1] - 0.1);
       }
       break;
     case 14:
       if (!useReverseOnAxis) {
         // check if we have reached the minimum -> toggle reverse
-        if (simInputThrottles.throttles[0] == -1.0 || simInputThrottles.throttles[1] == -1.0) {
-          isReverseToggleActive = !isReverseToggleActive;
+        if (simInputThrottles.throttles[0] == -1.0) {
+          isReverseToggleKeyActive[0] = !isReverseToggleKeyActive[0];
+        }
+        if (simInputThrottles.throttles[1] == -1.0) {
+          isReverseToggleKeyActive[1] = !isReverseToggleKeyActive[1];
         }
       }
-      if (isReverseToggleActive) {
+      if (isReverseToggleActive | isReverseToggleKeyActive[0]) {
         simInputThrottles.throttles[0] = max(-1.0, simInputThrottles.throttles[0] - 0.05);
-        simInputThrottles.throttles[1] = max(-1.0, simInputThrottles.throttles[1] - 0.05);
       } else {
         simInputThrottles.throttles[0] = min(1.0, simInputThrottles.throttles[0] + 0.05);
+      }
+      if (isReverseToggleActive | isReverseToggleKeyActive[1]) {
+        simInputThrottles.throttles[1] = max(-1.0, simInputThrottles.throttles[1] - 0.05);
+      } else {
         simInputThrottles.throttles[1] = min(1.0, simInputThrottles.throttles[1] + 0.05);
       }
       break;
     case 15:
       if (!useReverseOnAxis) {
         // check if we have reached the minimum -> toggle reverse
-        if (simInputThrottles.throttles[0] == -1.0 || simInputThrottles.throttles[1] == -1.0) {
-          isReverseToggleActive = !isReverseToggleActive;
+        if (simInputThrottles.throttles[0] == -1.0) {
+          isReverseToggleKeyActive[0] = !isReverseToggleKeyActive[0];
+        }
+        if (simInputThrottles.throttles[1] == -1.0) {
+          isReverseToggleKeyActive[1] = !isReverseToggleKeyActive[1];
         }
       }
-      if (isReverseToggleActive) {
+      if (isReverseToggleActive | isReverseToggleKeyActive[0]) {
         simInputThrottles.throttles[0] = min(1.0, simInputThrottles.throttles[0] + 0.05);
-        simInputThrottles.throttles[1] = min(1.0, simInputThrottles.throttles[1] + 0.05);
       } else {
         simInputThrottles.throttles[0] = max(-1.0, simInputThrottles.throttles[0] - 0.05);
+      }
+      if (isReverseToggleActive | isReverseToggleKeyActive[1]) {
+        simInputThrottles.throttles[1] = min(1.0, simInputThrottles.throttles[1] + 0.05);
+      } else {
         simInputThrottles.throttles[1] = max(-1.0, simInputThrottles.throttles[1] - 0.05);
       }
       break;
@@ -432,16 +472,17 @@ void SimConnectInterface::simConnectProcessEvent(const SIMCONNECT_RECV* pData) {
       break;
     case 17:
       isReverseToggleActive = false;
+      isReverseToggleKeyActive[0] = false;
       simInputThrottles.throttles[0] = idleThrottleInput;
       break;
     case 18:
       if (!useReverseOnAxis) {
         // check if we have reached the minimum -> toggle reverse
         if (simInputThrottles.throttles[0] == -1.0) {
-          isReverseToggleActive = !isReverseToggleActive;
+          isReverseToggleKeyActive[0] = !isReverseToggleKeyActive[0];
         }
       }
-      if (isReverseToggleActive) {
+      if (isReverseToggleActive | isReverseToggleKeyActive[0]) {
         simInputThrottles.throttles[0] = max(-1.0, simInputThrottles.throttles[0] - 0.1);
       } else {
         simInputThrottles.throttles[0] = min(1.0, simInputThrottles.throttles[0] + 0.1);
@@ -451,10 +492,10 @@ void SimConnectInterface::simConnectProcessEvent(const SIMCONNECT_RECV* pData) {
       if (!useReverseOnAxis) {
         // check if we have reached the minimum -> toggle reverse
         if (simInputThrottles.throttles[0] == -1.0) {
-          isReverseToggleActive = !isReverseToggleActive;
+          isReverseToggleKeyActive[0] = !isReverseToggleKeyActive[0];
         }
       }
-      if (isReverseToggleActive) {
+      if (isReverseToggleActive | isReverseToggleKeyActive[0]) {
         simInputThrottles.throttles[0] = min(1.0, simInputThrottles.throttles[0] + 0.1);
       } else {
         simInputThrottles.throttles[0] = max(-1.0, simInputThrottles.throttles[0] - 0.1);
@@ -464,10 +505,10 @@ void SimConnectInterface::simConnectProcessEvent(const SIMCONNECT_RECV* pData) {
       if (!useReverseOnAxis) {
         // check if we have reached the minimum -> toggle reverse
         if (simInputThrottles.throttles[0] == -1.0) {
-          isReverseToggleActive = !isReverseToggleActive;
+          isReverseToggleKeyActive[0] = !isReverseToggleKeyActive[0];
         }
       }
-      if (isReverseToggleActive) {
+      if (isReverseToggleActive | isReverseToggleKeyActive[0]) {
         simInputThrottles.throttles[0] = max(-1.0, simInputThrottles.throttles[0] - 0.05);
       } else {
         simInputThrottles.throttles[0] = min(1.0, simInputThrottles.throttles[0] + 0.05);
@@ -477,10 +518,10 @@ void SimConnectInterface::simConnectProcessEvent(const SIMCONNECT_RECV* pData) {
       if (!useReverseOnAxis) {
         // check if we have reached the minimum -> toggle reverse
         if (simInputThrottles.throttles[0] == -1.0) {
-          isReverseToggleActive = !isReverseToggleActive;
+          isReverseToggleKeyActive[0] = !isReverseToggleKeyActive[0];
         }
       }
-      if (isReverseToggleActive) {
+      if (isReverseToggleActive | isReverseToggleKeyActive[0]) {
         simInputThrottles.throttles[0] = min(1.0, simInputThrottles.throttles[0] + 0.05);
       } else {
         simInputThrottles.throttles[0] = max(-1.0, simInputThrottles.throttles[0] - 0.05);
@@ -492,16 +533,17 @@ void SimConnectInterface::simConnectProcessEvent(const SIMCONNECT_RECV* pData) {
       break;
     case 23:
       isReverseToggleActive = false;
+      isReverseToggleKeyActive[1] = false;
       simInputThrottles.throttles[1] = idleThrottleInput;
       break;
     case 24:
       if (!useReverseOnAxis) {
         // check if we have reached the minimum -> toggle reverse
         if (simInputThrottles.throttles[1] == -1.0) {
-          isReverseToggleActive = !isReverseToggleActive;
+          isReverseToggleKeyActive[1] = !isReverseToggleKeyActive[1];
         }
       }
-      if (isReverseToggleActive) {
+      if (isReverseToggleActive | isReverseToggleKeyActive[1]) {
         simInputThrottles.throttles[1] = max(-1.0, simInputThrottles.throttles[1] - 0.1);
       } else {
         simInputThrottles.throttles[1] = min(1.0, simInputThrottles.throttles[1] + 0.1);
@@ -511,10 +553,10 @@ void SimConnectInterface::simConnectProcessEvent(const SIMCONNECT_RECV* pData) {
       if (!useReverseOnAxis) {
         // check if we have reached the minimum -> toggle reverse
         if (simInputThrottles.throttles[1] == -1.0) {
-          isReverseToggleActive = !isReverseToggleActive;
+          isReverseToggleKeyActive[1] = !isReverseToggleKeyActive[1];
         }
       }
-      if (isReverseToggleActive) {
+      if (isReverseToggleActive | isReverseToggleKeyActive[1]) {
         simInputThrottles.throttles[1] = min(1.0, simInputThrottles.throttles[1] + 0.1);
       } else {
         simInputThrottles.throttles[1] = max(-1.0, simInputThrottles.throttles[1] - 0.1);
@@ -524,10 +566,10 @@ void SimConnectInterface::simConnectProcessEvent(const SIMCONNECT_RECV* pData) {
       if (!useReverseOnAxis) {
         // check if we have reached the minimum -> toggle reverse
         if (simInputThrottles.throttles[1] == -1.0) {
-          isReverseToggleActive = !isReverseToggleActive;
+          isReverseToggleKeyActive[1] = !isReverseToggleKeyActive[1];
         }
       }
-      if (isReverseToggleActive) {
+      if (isReverseToggleActive | isReverseToggleKeyActive[1]) {
         simInputThrottles.throttles[1] = max(-1.0, simInputThrottles.throttles[1] - 0.05);
       } else {
         simInputThrottles.throttles[1] = min(1.0, simInputThrottles.throttles[1] + 0.05);
@@ -537,10 +579,10 @@ void SimConnectInterface::simConnectProcessEvent(const SIMCONNECT_RECV* pData) {
       if (!useReverseOnAxis) {
         // check if we have reached the minimum -> toggle reverse
         if (simInputThrottles.throttles[1] == -1.0) {
-          isReverseToggleActive = !isReverseToggleActive;
+          isReverseToggleKeyActive[1] = !isReverseToggleKeyActive[1];
         }
       }
-      if (isReverseToggleActive) {
+      if (isReverseToggleActive | isReverseToggleKeyActive[1]) {
         simInputThrottles.throttles[1] = min(1.0, simInputThrottles.throttles[1] + 0.05);
       } else {
         simInputThrottles.throttles[1] = max(-1.0, simInputThrottles.throttles[1] - 0.05);
@@ -549,11 +591,15 @@ void SimConnectInterface::simConnectProcessEvent(const SIMCONNECT_RECV* pData) {
 
     case 28:
       isReverseToggleActive = !isReverseToggleActive;
+      isReverseToggleKeyActive[0] = isReverseToggleActive;
+      isReverseToggleKeyActive[1] = isReverseToggleActive;
       simInputThrottles.throttles[0] = idleThrottleInput;
       simInputThrottles.throttles[1] = idleThrottleInput;
       break;
     case 29:
       isReverseToggleActive = static_cast<bool>(event->dwData);
+      isReverseToggleKeyActive[0] = isReverseToggleActive;
+      isReverseToggleKeyActive[1] = isReverseToggleActive;
       if (!isReverseToggleActive) {
         simInputThrottles.throttles[0] = idleThrottleInput;
         simInputThrottles.throttles[1] = idleThrottleInput;
