@@ -285,8 +285,10 @@ bool FlyByWireInterface::processThrottles() {
                                            throttleLookupTable.get(simInputThrottles.throttles[1])};
 
   // detect reverse situation
-  if (!useReverseOnAxis && simConnectInterface.getIsReverseToggleActive()) {
+  if (!useReverseOnAxis && simConnectInterface.getIsReverseToggleActive(0)) {
     simOutputThrottles.throttleLeverPosition_1 = -10.0 * (simInputThrottles.throttles[0] + 1);
+  }
+  if (!useReverseOnAxis && simConnectInterface.getIsReverseToggleActive(1)) {
     simOutputThrottles.throttleLeverPosition_2 = -10.0 * (simInputThrottles.throttles[1] + 1);
   }
 
