@@ -117,7 +117,7 @@ void FlightDataRecorderConverter::writeHeader(ofstream& out, const string& delim
   out << "roll.law_normal.xi_deg" << delimiter;
   out << "roll.law_normal.zeta_deg" << delimiter;
   out << "roll.output.xi_deg" << delimiter;
-  out << "roll.output.zeta_deg" << delimiter;
+  out << "roll.output.zeta_deg";
   out << endl;
 }
 
@@ -236,6 +236,6 @@ void FlightDataRecorderConverter::writeStruct(ofstream& out, const string& delim
   out << data.roll.law_normal.xi_deg << delimiter;
   out << data.roll.law_normal.zeta_deg << delimiter;
   out << data.roll.output.xi_deg << delimiter;
-  out << data.roll.output.zeta_deg << delimiter;
+  out << data.roll.output.zeta_deg;
   out << endl;
 }
