@@ -301,6 +301,12 @@ bool FlyByWireInterface::processThrottles() {
     simOutputThrottles.throttleLeverPosition_2 = get_named_variable_value(idThrottlePosition_2);
   }
 
+  // clip when aircraft is in flight
+  if (!model.FlyByWire_Y.out.sim.data_computed.on_ground) {
+    simOutputThrottles.throttleLeverPosition_1 = max(0, simOutputThrottles.throttleLeverPosition_1);
+    simOutputThrottles.throttleLeverPosition_2 = max(0, simOutputThrottles.throttleLeverPosition_2);
+  }
+
   // if enabled, print values
   if (isThrottleLoggingEnabled) {
     if (lastUseReverseOnAxis != useReverseOnAxis || lastThrottleInput_1 != simInputThrottles.throttles[0] ||
