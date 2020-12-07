@@ -117,6 +117,7 @@ bool FlyByWireInterface::getModelInputDataFromSim(double sampleTime) {
 
   // fill time into model
   model.FlyByWire_U.in.time.dt = sampleTime;
+  model.FlyByWire_U.in.time.simulation_time = simData.simulationTime;
 
   // fill data into model
   model.FlyByWire_U.in.data.nz_g = simData.nz_g;
@@ -143,10 +144,13 @@ bool FlyByWireInterface::getModelInputDataFromSim(double sampleTime) {
   model.FlyByWire_U.in.data.H_ind_ft = simData.H_ind_ft;
   model.FlyByWire_U.in.data.H_radio_ft = simData.H_radio_ft;
   model.FlyByWire_U.in.data.CG_percent_MAC = simData.CG_percent_MAC;
+  model.FlyByWire_U.in.data.total_weight_kg = simData.total_weight_kg;
   model.FlyByWire_U.in.data.gear_animation_pos_0 = simData.gear_animation_pos_0;
   model.FlyByWire_U.in.data.gear_animation_pos_1 = simData.gear_animation_pos_1;
   model.FlyByWire_U.in.data.gear_animation_pos_2 = simData.gear_animation_pos_2;
   model.FlyByWire_U.in.data.flaps_handle_index = simData.flaps_handle_index;
+  model.FlyByWire_U.in.data.spoilers_left_pos = simData.spoilers_left_pos;
+  model.FlyByWire_U.in.data.spoilers_right_pos = simData.spoilers_right_pos;
   model.FlyByWire_U.in.data.autopilot_master_on = simData.autopilot_master_on;
   model.FlyByWire_U.in.data.slew_on = simData.slew_on;
   model.FlyByWire_U.in.data.pause_on = isInPause;

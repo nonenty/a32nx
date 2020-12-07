@@ -5,6 +5,7 @@ using namespace std;
 void FlightDataRecorderConverter::writeHeader(ofstream& out, const string& delimiter) {
   out << "time" << delimiter;
   out << "sim.raw.time.dt" << delimiter;
+  out << "sim.raw.time.simulation_time" << delimiter;
   out << "sim.raw.data.nz_g" << delimiter;
   out << "sim.raw.data.Theta_deg" << delimiter;
   out << "sim.raw.data.Phi_deg" << delimiter;
@@ -29,10 +30,13 @@ void FlightDataRecorderConverter::writeHeader(ofstream& out, const string& delim
   out << "sim.raw.data.H_ind_ft" << delimiter;
   out << "sim.raw.data.H_radio_ft" << delimiter;
   out << "sim.raw.data.CG_percent_MAC" << delimiter;
+  out << "sim.raw.data.total_weight_kg" << delimiter;
   out << "sim.raw.data.gear_animation_pos_0" << delimiter;
   out << "sim.raw.data.gear_animation_pos_1" << delimiter;
   out << "sim.raw.data.gear_animation_pos_2" << delimiter;
   out << "sim.raw.data.flaps_handle_index" << delimiter;
+  out << "sim.raw.data.spoilers_left_pos" << delimiter;
+  out << "sim.raw.data.spoilers_right_pos" << delimiter;
   out << "sim.raw.data.autopilot_master_on" << delimiter;
   out << "sim.raw.data.slew_on" << delimiter;
   out << "sim.raw.data.pause_on" << delimiter;
@@ -46,6 +50,7 @@ void FlightDataRecorderConverter::writeHeader(ofstream& out, const string& delim
   out << "sim.raw.output.zeta_pos" << delimiter;
   out << "sim.raw.output.zeta_trim_pos" << delimiter;
   out << "sim.time.dt" << delimiter;
+  out << "sim.time.simulation_time" << delimiter;
   out << "sim.time.monotonic_time" << delimiter;
   out << "sim.data.nz_g" << delimiter;
   out << "sim.data.Theta_deg" << delimiter;
@@ -74,10 +79,13 @@ void FlightDataRecorderConverter::writeHeader(ofstream& out, const string& delim
   out << "sim.data.H_ind_ft" << delimiter;
   out << "sim.data.H_radio_ft" << delimiter;
   out << "sim.data.CG_percent_MAC" << delimiter;
+  out << "sim.data.total_weight_kg" << delimiter;
   out << "sim.data.gear_strut_compression_0" << delimiter;
   out << "sim.data.gear_strut_compression_1" << delimiter;
   out << "sim.data.gear_strut_compression_2" << delimiter;
   out << "sim.data.flaps_handle_index" << delimiter;
+  out << "sim.data.spoilers_left_pos" << delimiter;
+  out << "sim.data.spoilers_right_pos" << delimiter;
   out << "sim.data.autopilot_master_on" << delimiter;
   out << "sim.data.slew_on" << delimiter;
   out << "sim.data.pause_on" << delimiter;
@@ -124,6 +132,7 @@ void FlightDataRecorderConverter::writeHeader(ofstream& out, const string& delim
 void FlightDataRecorderConverter::writeStruct(ofstream& out, const string& delimiter, const fbw_output& data) {
   out << data.sim.time.monotonic_time << delimiter;
   out << data.sim.raw.time.dt << delimiter;
+  out << data.sim.raw.time.simulation_time << delimiter;
   out << data.sim.raw.data.nz_g << delimiter;
   out << data.sim.raw.data.Theta_deg << delimiter;
   out << data.sim.raw.data.Phi_deg << delimiter;
@@ -148,10 +157,13 @@ void FlightDataRecorderConverter::writeStruct(ofstream& out, const string& delim
   out << data.sim.raw.data.H_ind_ft << delimiter;
   out << data.sim.raw.data.H_radio_ft << delimiter;
   out << data.sim.raw.data.CG_percent_MAC << delimiter;
+  out << data.sim.raw.data.total_weight_kg << delimiter;
   out << data.sim.raw.data.gear_animation_pos_0 << delimiter;
   out << data.sim.raw.data.gear_animation_pos_1 << delimiter;
   out << data.sim.raw.data.gear_animation_pos_2 << delimiter;
   out << data.sim.raw.data.flaps_handle_index << delimiter;
+  out << data.sim.raw.data.spoilers_left_pos << delimiter;
+  out << data.sim.raw.data.spoilers_right_pos << delimiter;
   out << data.sim.raw.data.autopilot_master_on << delimiter;
   out << data.sim.raw.data.slew_on << delimiter;
   out << data.sim.raw.data.pause_on << delimiter;
@@ -165,6 +177,7 @@ void FlightDataRecorderConverter::writeStruct(ofstream& out, const string& delim
   out << data.sim.raw.output.zeta_pos << delimiter;
   out << data.sim.raw.output.zeta_trim_pos << delimiter;
   out << data.sim.time.dt << delimiter;
+  out << data.sim.time.simulation_time << delimiter;
   out << data.sim.time.monotonic_time << delimiter;
   out << data.sim.data.nz_g << delimiter;
   out << data.sim.data.Theta_deg << delimiter;
@@ -193,10 +206,13 @@ void FlightDataRecorderConverter::writeStruct(ofstream& out, const string& delim
   out << data.sim.data.H_ind_ft << delimiter;
   out << data.sim.data.H_radio_ft << delimiter;
   out << data.sim.data.CG_percent_MAC << delimiter;
+  out << data.sim.data.total_weight_kg << delimiter;
   out << data.sim.data.gear_strut_compression_0 << delimiter;
   out << data.sim.data.gear_strut_compression_1 << delimiter;
   out << data.sim.data.gear_strut_compression_2 << delimiter;
   out << data.sim.data.flaps_handle_index << delimiter;
+  out << data.sim.data.spoilers_left_pos << delimiter;
+  out << data.sim.data.spoilers_right_pos << delimiter;
   out << data.sim.data.autopilot_master_on << delimiter;
   out << data.sim.data.slew_on << delimiter;
   out << data.sim.data.pause_on << delimiter;

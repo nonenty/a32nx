@@ -6,6 +6,7 @@
 
 typedef struct {
   real_T dt;
+  real_T simulation_time;
 } base_raw_time;
 
 #endif
@@ -38,10 +39,13 @@ typedef struct {
   real_T H_ind_ft;
   real_T H_radio_ft;
   real_T CG_percent_MAC;
+  real_T total_weight_kg;
   real_T gear_animation_pos_0;
   real_T gear_animation_pos_1;
   real_T gear_animation_pos_2;
   real_T flaps_handle_index;
+  real_T spoilers_left_pos;
+  real_T spoilers_right_pos;
   real_T autopilot_master_on;
   real_T slew_on;
   real_T pause_on;
@@ -102,6 +106,7 @@ typedef struct {
 
 typedef struct {
   real_T dt;
+  real_T simulation_time;
   real_T monotonic_time;
 } base_time;
 
@@ -138,10 +143,13 @@ typedef struct {
   real_T H_ind_ft;
   real_T H_radio_ft;
   real_T CG_percent_MAC;
+  real_T total_weight_kg;
   real_T gear_strut_compression_0;
   real_T gear_strut_compression_1;
   real_T gear_strut_compression_2;
   real_T flaps_handle_index;
+  real_T spoilers_left_pos;
+  real_T spoilers_right_pos;
   real_T autopilot_master_on;
   real_T slew_on;
   real_T pause_on;
