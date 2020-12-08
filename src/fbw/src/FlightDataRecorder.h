@@ -21,6 +21,7 @@
 #include <fstream>
 
 #include "FlyByWire.h"
+#include "zfstream.h"
 
 class FlightDataRecorder {
  public:
@@ -37,7 +38,7 @@ class FlightDataRecorder {
   int sampleCounter = false;
   int maximumSampleCounter = 0;
   int maximumFileCount = 0;
-  std::ofstream* fileStream = nullptr;
+  gzofstream* fileStream;
 
   void manageFlightDataRecorderFiles();
 
