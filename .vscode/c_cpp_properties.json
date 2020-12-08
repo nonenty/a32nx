@@ -9,7 +9,8 @@
                 "${workspaceFolder}/src/fbw/src",
                 "${workspaceFolder}/src/fbw/src/inih",
                 "${workspaceFolder}/src/fbw/src/interface",
-                "${workspaceFolder}/src/fbw/src/model"
+                "${workspaceFolder}/src/fbw/src/model",
+                "${workspaceFolder}/src/fbw/src/zlib"
               ],
             "defines": [
                 "_MSFS_WASM=1",

@@ -39,15 +39,15 @@ void FlightDataRecorder::initialize() {
     configFile.open(CONFIGURATION_FILEPATH);
     configFile << "[FlightDataRecorder]" << endl;
     configFile << "Enabled = true" << endl;
-    configFile << "MaximumNumberOfFiles = 5" << endl;
-    configFile << "MaximumNumberOfEntriesPerFile = 54000" << endl;
+    configFile << "MaximumNumberOfFiles = 15" << endl;
+    configFile << "MaximumNumberOfEntriesPerFile = 864000" << endl;
     configFile.close();
   }
 
   // read basic configuration
   isEnabled = configuration.GetBoolean("FlightDataRecorder", "Enabled", true);
-  maximumFileCount = configuration.GetInteger("FlightDataRecorder", "MaximumNumberOfFiles", 5);
-  maximumSampleCounter = configuration.GetInteger("FlightDataRecorder", "MaximumNumberOfEntriesPerFile", 54000);
+  maximumFileCount = configuration.GetInteger("FlightDataRecorder", "MaximumNumberOfFiles", 15);
+  maximumSampleCounter = configuration.GetInteger("FlightDataRecorder", "MaximumNumberOfEntriesPerFile", 864000);
 
   // print configuration
   cout << "WASM: Flight Data Recorder Configuration : Enabled                  "
@@ -78,6 +78,7 @@ void FlightDataRecorder::terminate() {
   if (fileStream != nullptr) {
     fileStream->close();
     fileStream = nullptr;
+    delete fileStream;
   }
 }
 
@@ -87,9 +88,9 @@ void FlightDataRecorder::manageFlightDataRecorderFiles() {
 
   // check if file is considered full
   if (sampleCounter >= maximumSampleCounter) {
-    // close file
+    // close file and delete
     fileStream->close();
-    // reset pointer
+    delete fileStream;
     fileStream = nullptr;
     // reset counter
     sampleCounter = 0;
@@ -99,7 +100,7 @@ void FlightDataRecorder::manageFlightDataRecorderFiles() {
     // get filename
     string filename = getFlightDataRecorderFilename();
     // create new file
-    fileStream = new ofstream(filename, ofstream::binary | ofstream::out);
+    fileStream = new gzofstream(filename.c_str());
     // clean up directory
     cleanUpFlightDataRecorderFiles();
   }

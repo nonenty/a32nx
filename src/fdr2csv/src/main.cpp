@@ -4,6 +4,7 @@
 #include "CommandLine.hpp"
 #include "FlightDataRecorderConverter.h"
 #include "FlyByWire_types.h"
+#include "zfstream.h"
 
 using namespace std;
 
@@ -12,6 +13,7 @@ int main(int argc, char* argv[]) {
   string inFilePath;
   string outFilePath;
   string delimiter = ",";
+  bool noCompression = false;
   bool printStructSize = false;
   bool oPrintHelp = false;
 
@@ -20,6 +22,7 @@ int main(int argc, char* argv[]) {
   args.addArgument({"-i", "--in"}, &inFilePath, "Input File");
   args.addArgument({"-o", "--out"}, &outFilePath, "Output File");
   args.addArgument({"-d", "--delimiter"}, &delimiter, "Delimiter");
+  args.addArgument({"-n", "--no-compression"}, &noCompression, "Input file is not compressed");
   args.addArgument({"-p", "--print-struct-size"}, &printStructSize, "Print struct size");
   args.addArgument({"-h", "--help"}, &oPrintHelp, "Print help message");
 
@@ -75,12 +78,16 @@ int main(int argc, char* argv[]) {
   // write header
   FlightDataRecorderConverter::writeHeader(out, delimiter);
 
-  // input stream
-  ifstream in;
-  // open the input file
-  in.open(inFilePath, ios::in | ios::binary);
-  // check if input file is open
-  if (!in.is_open()) {
+  // create input stream
+  istream* in;
+  if (!noCompression) {
+    in = new gzifstream(inFilePath.c_str());
+  } else {
+    in = new ifstream(inFilePath.c_str(), ios::in | ios::binary);
+  }
+
+  // check if stream is ok
+  if (!in->good()) {
     cout << "Failed to open input file!" << endl;
     return 1;
   }
@@ -93,18 +100,21 @@ int main(int argc, char* argv[]) {
   fbw_output data = {};
 
   // read one struct from the file
-  while (!in.eof()) {
+  while (!in->eof()) {
     // read data into struct
-    in.read(reinterpret_cast<char*>(&data), sizeof(fbw_output));
+    in->read(reinterpret_cast<char*>(&data), sizeof(fbw_output));
     // write struct to csv file
     FlightDataRecorderConverter::writeStruct(out, delimiter, data);
     // print progress
-    if (++counter % 100 == 0) {
-      cout << "Processing entry " << counter << " of " << numberOfEntries << "...";
+    if (++counter % 500 == 0) {
+      cout << "Processed " << counter << " entries...";
       // return to line start
       cout << "\r";
     }
   }
+
+  // print final value
+  cout << "Processed " << counter << " entries." << endl;
 
   // success
   return 0;
