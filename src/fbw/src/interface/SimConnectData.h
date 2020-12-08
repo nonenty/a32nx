@@ -52,6 +52,16 @@ struct SimData {
   bool autopilot_master_on;
   bool slew_on;
   double simulationTime;
+  double simulation_rate;
+  double ice_structure_percent;
+  double linear_cl_alpha_per_deg;
+  double alpha_stall_deg;
+  double alpha_zero_lift_deg;
+  double ambient_pressure_mbar;
+  double ambient_temperature_celsius;
+  double ambient_wind_velocity_kn;
+  double ambient_wind_direction_deg;
+  double total_air_temperature_celsius;
 };
 
 struct SimInput {
