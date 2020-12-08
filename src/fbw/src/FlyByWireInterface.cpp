@@ -154,6 +154,16 @@ bool FlyByWireInterface::getModelInputDataFromSim(double sampleTime) {
   model.FlyByWire_U.in.data.autopilot_master_on = simData.autopilot_master_on;
   model.FlyByWire_U.in.data.slew_on = simData.slew_on;
   model.FlyByWire_U.in.data.pause_on = isInPause;
+  model.FlyByWire_U.in.data.simulation_rate = simData.simulation_rate;
+  model.FlyByWire_U.in.data.ice_structure_percent = simData.ice_structure_percent;
+  model.FlyByWire_U.in.data.linear_cl_alpha_per_deg = simData.linear_cl_alpha_per_deg;
+  model.FlyByWire_U.in.data.alpha_stall_deg = simData.alpha_stall_deg;
+  model.FlyByWire_U.in.data.alpha_zero_lift_deg = simData.alpha_zero_lift_deg;
+  model.FlyByWire_U.in.data.ambient_pressure_mbar = simData.ambient_pressure_mbar;
+  model.FlyByWire_U.in.data.ambient_temperature_celsius = simData.ambient_temperature_celsius;
+  model.FlyByWire_U.in.data.ambient_wind_velocity_kn = simData.ambient_wind_velocity_kn;
+  model.FlyByWire_U.in.data.ambient_wind_direction_deg = simData.ambient_wind_direction_deg;
+  model.FlyByWire_U.in.data.total_air_temperature_celsius = simData.total_air_temperature_celsius;
 
   // process the sidestick handling
   // use the values read from input as sidestick left

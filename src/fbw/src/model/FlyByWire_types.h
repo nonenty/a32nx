@@ -49,6 +49,16 @@ typedef struct {
   real_T autopilot_master_on;
   real_T slew_on;
   real_T pause_on;
+  real_T simulation_rate;
+  real_T ice_structure_percent;
+  real_T linear_cl_alpha_per_deg;
+  real_T alpha_stall_deg;
+  real_T alpha_zero_lift_deg;
+  real_T ambient_pressure_mbar;
+  real_T ambient_temperature_celsius;
+  real_T ambient_wind_velocity_kn;
+  real_T ambient_wind_direction_deg;
+  real_T total_air_temperature_celsius;
 } base_raw_data;
 
 #endif
@@ -153,6 +163,16 @@ typedef struct {
   real_T autopilot_master_on;
   real_T slew_on;
   real_T pause_on;
+  real_T simulation_rate;
+  real_T ice_structure_percent;
+  real_T linear_cl_alpha_per_deg;
+  real_T alpha_stall_deg;
+  real_T alpha_zero_lift_deg;
+  real_T ambient_pressure_mbar;
+  real_T ambient_temperature_celsius;
+  real_T ambient_wind_velocity_kn;
+  real_T ambient_wind_direction_deg;
+  real_T total_air_temperature_celsius;
 } base_data;
 
 #endif
