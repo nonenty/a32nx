@@ -202,7 +202,7 @@ void FlightDataRecorderConverter::writeStruct(ofstream& out, const string& delim
   out << data.sim.raw.input.delta_zeta_pos << delimiter;
   out << data.sim.raw.output.eta_pos << delimiter;
   out << data.sim.raw.output.eta_trim_deg << delimiter;
-  out << data.sim.raw.output.eta_trim_deg_should_write << delimiter;
+  out << static_cast<unsigned int>(data.sim.raw.output.eta_trim_deg_should_write) << delimiter;
   out << data.sim.raw.output.xi_pos << delimiter;
   out << data.sim.raw.output.zeta_pos << delimiter;
   out << data.sim.raw.output.zeta_trim_pos << delimiter;
@@ -267,10 +267,10 @@ void FlightDataRecorderConverter::writeStruct(ofstream& out, const string& delim
   out << data.pitch.data_computed.in_flight_gain << delimiter;
   out << data.pitch.data_computed.nz_limit_up_g << delimiter;
   out << data.pitch.data_computed.nz_limit_lo_g << delimiter;
-  out << data.pitch.data_computed.eta_trim_deg_should_freeze << delimiter;
-  out << data.pitch.data_computed.eta_trim_deg_reset << delimiter;
+  out << static_cast<unsigned int>(data.pitch.data_computed.eta_trim_deg_should_freeze) << delimiter;
+  out << static_cast<unsigned int>(data.pitch.data_computed.eta_trim_deg_reset) << delimiter;
   out << data.pitch.data_computed.eta_trim_deg_reset_deg << delimiter;
-  out << data.pitch.data_computed.eta_trim_deg_should_write << delimiter;
+  out << static_cast<unsigned int>(data.pitch.data_computed.eta_trim_deg_should_write) << delimiter;
   out << data.pitch.data_computed.eta_trim_deg_rate_limit_up_deg_s << delimiter;
   out << data.pitch.data_computed.eta_trim_deg_rate_limit_lo_deg_s << delimiter;
   out << data.pitch.data_computed.flare_Theta_deg << delimiter;
