@@ -27,6 +27,8 @@ struct SimData {
   double Phi_deg;
   SIMCONNECT_DATA_XYZ bodyRotationVelocity;
   SIMCONNECT_DATA_XYZ bodyRotationAcceleration;
+  double psi_magnetic_deg;
+  double psi_true_deg;
   double eta_pos;
   double eta_trim_deg;
   double xi_pos;
@@ -57,11 +59,17 @@ struct SimData {
   double linear_cl_alpha_per_deg;
   double alpha_stall_deg;
   double alpha_zero_lift_deg;
+  double ambient_density_kg_per_m3;
   double ambient_pressure_mbar;
   double ambient_temperature_celsius;
+  double ambient_wind_x_kn;
+  double ambient_wind_y_kn;
+  double ambient_wind_z_kn;
   double ambient_wind_velocity_kn;
   double ambient_wind_direction_deg;
   double total_air_temperature_celsius;
+  double latitude_deg;
+  double longitude_deg;
 };
 
 struct SimInput {

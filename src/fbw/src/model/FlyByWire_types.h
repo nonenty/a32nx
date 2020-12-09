@@ -24,6 +24,8 @@ typedef struct {
   real_T q_dot_rad_s2;
   real_T r_dot_rad_s2;
   real_T p_dot_rad_s2;
+  real_T psi_magnetic_deg;
+  real_T psi_true_deg;
   real_T eta_pos;
   real_T eta_trim_deg;
   real_T xi_pos;
@@ -54,11 +56,17 @@ typedef struct {
   real_T linear_cl_alpha_per_deg;
   real_T alpha_stall_deg;
   real_T alpha_zero_lift_deg;
+  real_T ambient_density_kg_per_m3;
   real_T ambient_pressure_mbar;
   real_T ambient_temperature_celsius;
+  real_T ambient_wind_x_kn;
+  real_T ambient_wind_y_kn;
+  real_T ambient_wind_z_kn;
   real_T ambient_wind_velocity_kn;
   real_T ambient_wind_direction_deg;
   real_T total_air_temperature_celsius;
+  real_T latitude_deg;
+  real_T longitude_deg;
 } base_raw_data;
 
 #endif
@@ -138,6 +146,8 @@ typedef struct {
   real_T qk_dot_deg_s2;
   real_T rk_dot_deg_s2;
   real_T pk_dot_deg_s2;
+  real_T psi_magnetic_deg;
+  real_T psi_true_deg;
   real_T eta_deg;
   real_T eta_trim_deg;
   real_T xi_deg;
@@ -168,11 +178,17 @@ typedef struct {
   real_T linear_cl_alpha_per_deg;
   real_T alpha_stall_deg;
   real_T alpha_zero_lift_deg;
+  real_T ambient_density_kg_per_m3;
   real_T ambient_pressure_mbar;
   real_T ambient_temperature_celsius;
+  real_T ambient_wind_x_kn;
+  real_T ambient_wind_y_kn;
+  real_T ambient_wind_z_kn;
   real_T ambient_wind_velocity_kn;
   real_T ambient_wind_direction_deg;
   real_T total_air_temperature_celsius;
+  real_T latitude_deg;
+  real_T longitude_deg;
 } base_data;
 
 #endif

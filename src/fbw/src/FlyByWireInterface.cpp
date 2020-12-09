@@ -129,6 +129,8 @@ bool FlyByWireInterface::getModelInputDataFromSim(double sampleTime) {
   model.FlyByWire_U.in.data.q_dot_rad_s2 = simData.bodyRotationAcceleration.x;
   model.FlyByWire_U.in.data.r_dot_rad_s2 = simData.bodyRotationAcceleration.y;
   model.FlyByWire_U.in.data.p_dot_rad_s2 = simData.bodyRotationAcceleration.z;
+  model.FlyByWire_U.in.data.psi_magnetic_deg = simData.psi_magnetic_deg;
+  model.FlyByWire_U.in.data.psi_true_deg = simData.psi_true_deg;
   model.FlyByWire_U.in.data.eta_pos = simData.eta_pos;
   model.FlyByWire_U.in.data.eta_trim_deg = simData.eta_trim_deg;
   model.FlyByWire_U.in.data.xi_pos = simData.xi_pos;
@@ -159,11 +161,17 @@ bool FlyByWireInterface::getModelInputDataFromSim(double sampleTime) {
   model.FlyByWire_U.in.data.linear_cl_alpha_per_deg = simData.linear_cl_alpha_per_deg;
   model.FlyByWire_U.in.data.alpha_stall_deg = simData.alpha_stall_deg;
   model.FlyByWire_U.in.data.alpha_zero_lift_deg = simData.alpha_zero_lift_deg;
+  model.FlyByWire_U.in.data.ambient_density_kg_per_m3 = simData.ambient_density_kg_per_m3;
   model.FlyByWire_U.in.data.ambient_pressure_mbar = simData.ambient_pressure_mbar;
   model.FlyByWire_U.in.data.ambient_temperature_celsius = simData.ambient_temperature_celsius;
+  model.FlyByWire_U.in.data.ambient_wind_x_kn = simData.ambient_wind_x_kn;
+  model.FlyByWire_U.in.data.ambient_wind_y_kn = simData.ambient_wind_y_kn;
+  model.FlyByWire_U.in.data.ambient_wind_z_kn = simData.ambient_wind_z_kn;
   model.FlyByWire_U.in.data.ambient_wind_velocity_kn = simData.ambient_wind_velocity_kn;
   model.FlyByWire_U.in.data.ambient_wind_direction_deg = simData.ambient_wind_direction_deg;
   model.FlyByWire_U.in.data.total_air_temperature_celsius = simData.total_air_temperature_celsius;
+  model.FlyByWire_U.in.data.latitude_deg = simData.latitude_deg;
+  model.FlyByWire_U.in.data.longitude_deg = simData.longitude_deg;
 
   // process the sidestick handling
   // use the values read from input as sidestick left
