@@ -8,7 +8,17 @@
 
 - :x: incompatible with YourControls add-on
 
+### Sensitivity and dead zones
+
+ℹ️ It is recommended that the sidestick uses a linear sensitivity with only dead zone set appropriately.
+
 ### Throttle configuration
+
+⚠️ It is needed to start the sim and load a flight using the A32NX with custom fly-by-wire to create those files.
+
+⚠️ When throttle sensitivity is changed, the throttle configuration needs to be adapted in most cases.
+
+ℹ️ The developer mode console shows input and output values. This can help to setup the throttle configuration.
 
 In case of Microsoft Store version, the configuration of the throttle can be found here:
 `%LOCALAPPDATA%\Packages\Microsoft.FlightSimulator_8wekyb3d8bbwe\LocalState\packages\<name of a32nx folder in community folder>\work\ThrottleConfiguration.ini`
@@ -20,6 +30,7 @@ This is the default configuration:
 
 ```
 [Throttle]
+Log = true
 Enabled = true
 ReverseOnAxis = false
 DetentReverseFull = -1.00
@@ -31,7 +42,7 @@ DetentTakeOffGoAround = 1.00
 
 ℹ️ The configuration file is written with the default configuration when it's not found.
 
-⚠️ The plane has to be reloaded to use a changed configured
+⚠️ The plane has to be reloaded to use a changed configured (reload in developer mode is sufficient).
 
 The following values can be configured:
 
