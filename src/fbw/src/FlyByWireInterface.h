@@ -41,6 +41,7 @@ class FlyByWireInterface {
   bool isThrottleHandlingEnabled = false;
   bool useReverseOnAxis = false;
   double idleThrottleInput = 0;
+  double throttleDetentDeadZone = 2.0;
 
   bool lastUseReverseOnAxis = false;
   double lastThrottleInput_1 = -1;
@@ -75,4 +76,7 @@ class FlyByWireInterface {
   void initializeThrottles();
 
   bool processThrottles();
+
+  double calculateDeadzones(double deadzone, double input);
+  double calculateDeadzone(double deadzone, double target, double input);
 };
