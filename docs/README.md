@@ -33,6 +33,7 @@ This is the default configuration:
 Log = true
 Enabled = true
 ReverseOnAxis = false
+DetentDeadZone = 2.0
 DetentReverseFull = -1.00
 DetentIdle = -1.00
 DetentClimb = 0.89
@@ -50,6 +51,7 @@ The following values can be configured:
 |----------|-------------|
 | Enabled |  Enabled or disables throttle handling completely |
 | ReverseOnAxis | When true reverse will be mapped on throttle axis and parameter *DetentReverseFull* is used  |
+| DetentDeadZone | Deadzone around the detents, applies after mapping the values to range -20 to 100 |
 | DetentReverseFull | Configures the throttle value for full reverse |
 | DetentIdle | Configures the throttle value for IDLE detent |
 | DetentClimb | Configures the throttle value for CLB detent |
