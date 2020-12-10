@@ -218,8 +218,8 @@ bool FlyByWireInterface::writeModelOuputDataToSim() {
   }
 
   // object to write with trim
-  SimOutput output = {model.FlyByWire_Y.out.sim.raw.output.eta_pos, model.FlyByWire_Y.out.sim.raw.output.xi_pos,
-                      model.FlyByWire_Y.out.sim.raw.output.zeta_pos};
+  SimOutput output = {model.FlyByWire_Y.out.output.eta_pos, model.FlyByWire_Y.out.output.xi_pos,
+                      model.FlyByWire_Y.out.output.zeta_pos};
 
   // send data via sim connect
   if (!simConnectInterface.sendData(output)) {
@@ -227,9 +227,9 @@ bool FlyByWireInterface::writeModelOuputDataToSim() {
     return false;
   }
 
-  if (model.FlyByWire_Y.out.sim.raw.output.eta_trim_deg_should_write) {
+  if (model.FlyByWire_Y.out.output.eta_trim_deg_should_write) {
     // object to write without trim
-    SimOutputEtaTrim output = {model.FlyByWire_Y.out.sim.raw.output.eta_trim_deg};
+    SimOutputEtaTrim output = {model.FlyByWire_Y.out.output.eta_trim_deg};
 
     // send data via sim connect
     if (!simConnectInterface.sendData(output)) {

@@ -93,32 +93,6 @@ typedef struct {
 
 #endif
 
-#ifndef DEFINED_TYPEDEF_FOR_base_raw_output_
-#define DEFINED_TYPEDEF_FOR_base_raw_output_
-
-typedef struct {
-  real_T eta_pos;
-  real_T eta_trim_deg;
-  boolean_T eta_trim_deg_should_write;
-  real_T xi_pos;
-  real_T zeta_pos;
-  real_T zeta_trim_pos;
-} base_raw_output;
-
-#endif
-
-#ifndef DEFINED_TYPEDEF_FOR_base_raw_
-#define DEFINED_TYPEDEF_FOR_base_raw_
-
-typedef struct {
-  base_raw_time time;
-  base_raw_data data;
-  base_input input;
-  base_raw_output output;
-} base_raw;
-
-#endif
-
 #ifndef DEFINED_TYPEDEF_FOR_base_time_
 #define DEFINED_TYPEDEF_FOR_base_time_
 
@@ -207,7 +181,6 @@ typedef struct {
 #define DEFINED_TYPEDEF_FOR_base_sim_
 
 typedef struct {
-  base_raw raw;
   base_time time;
   base_data data;
   base_data_computed data_computed;
@@ -336,6 +309,20 @@ typedef struct {
 
 #endif
 
+#ifndef DEFINED_TYPEDEF_FOR_base_raw_output_
+#define DEFINED_TYPEDEF_FOR_base_raw_output_
+
+typedef struct {
+  real_T eta_pos;
+  real_T eta_trim_deg;
+  boolean_T eta_trim_deg_should_write;
+  real_T xi_pos;
+  real_T zeta_pos;
+  real_T zeta_trim_pos;
+} base_raw_output;
+
+#endif
+
 #ifndef DEFINED_TYPEDEF_FOR_fbw_output_
 #define DEFINED_TYPEDEF_FOR_fbw_output_
 
@@ -343,6 +330,7 @@ typedef struct {
   base_sim sim;
   base_pitch pitch;
   base_roll roll;
+  base_raw_output output;
 } fbw_output;
 
 #endif
