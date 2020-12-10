@@ -417,14 +417,14 @@ void SimConnectInterface::simConnectProcessEvent(const SIMCONNECT_RECV* pData) {
         }
       }
       if (isReverseToggleActive | isReverseToggleKeyActive[0]) {
-        simInputThrottles.throttles[0] = max(-1.0, simInputThrottles.throttles[0] - 0.1);
+        simInputThrottles.throttles[0] = max(-1.0, simInputThrottles.throttles[0] - 0.05);
       } else {
-        simInputThrottles.throttles[0] = min(1.0, simInputThrottles.throttles[0] + 0.1);
+        simInputThrottles.throttles[0] = min(1.0, simInputThrottles.throttles[0] + 0.05);
       }
       if (isReverseToggleActive | isReverseToggleKeyActive[1]) {
-        simInputThrottles.throttles[1] = max(-1.0, simInputThrottles.throttles[1] - 0.1);
+        simInputThrottles.throttles[1] = max(-1.0, simInputThrottles.throttles[1] - 0.05);
       } else {
-        simInputThrottles.throttles[1] = min(1.0, simInputThrottles.throttles[1] + 0.1);
+        simInputThrottles.throttles[1] = min(1.0, simInputThrottles.throttles[1] + 0.05);
       }
       break;
     case 13:
@@ -438,14 +438,14 @@ void SimConnectInterface::simConnectProcessEvent(const SIMCONNECT_RECV* pData) {
         }
       }
       if (isReverseToggleActive | isReverseToggleKeyActive[0]) {
-        simInputThrottles.throttles[0] = min(1.0, simInputThrottles.throttles[0] + 0.1);
+        simInputThrottles.throttles[0] = min(1.0, simInputThrottles.throttles[0] + 0.05);
       } else {
-        simInputThrottles.throttles[0] = max(-1.0, simInputThrottles.throttles[0] - 0.1);
+        simInputThrottles.throttles[0] = max(-1.0, simInputThrottles.throttles[0] - 0.05);
       }
       if (isReverseToggleActive | isReverseToggleKeyActive[1]) {
-        simInputThrottles.throttles[1] = min(1.0, simInputThrottles.throttles[1] + 0.1);
+        simInputThrottles.throttles[1] = min(1.0, simInputThrottles.throttles[1] + 0.05);
       } else {
-        simInputThrottles.throttles[1] = max(-1.0, simInputThrottles.throttles[1] - 0.1);
+        simInputThrottles.throttles[1] = max(-1.0, simInputThrottles.throttles[1] - 0.05);
       }
       break;
     case 14:
@@ -459,14 +459,14 @@ void SimConnectInterface::simConnectProcessEvent(const SIMCONNECT_RECV* pData) {
         }
       }
       if (isReverseToggleActive | isReverseToggleKeyActive[0]) {
-        simInputThrottles.throttles[0] = max(-1.0, simInputThrottles.throttles[0] - 0.05);
+        simInputThrottles.throttles[0] = max(-1.0, simInputThrottles.throttles[0] - 0.025);
       } else {
-        simInputThrottles.throttles[0] = min(1.0, simInputThrottles.throttles[0] + 0.05);
+        simInputThrottles.throttles[0] = min(1.0, simInputThrottles.throttles[0] + 0.025);
       }
       if (isReverseToggleActive | isReverseToggleKeyActive[1]) {
-        simInputThrottles.throttles[1] = max(-1.0, simInputThrottles.throttles[1] - 0.05);
+        simInputThrottles.throttles[1] = max(-1.0, simInputThrottles.throttles[1] - 0.025);
       } else {
-        simInputThrottles.throttles[1] = min(1.0, simInputThrottles.throttles[1] + 0.05);
+        simInputThrottles.throttles[1] = min(1.0, simInputThrottles.throttles[1] + 0.025);
       }
       break;
     case 15:
@@ -480,14 +480,14 @@ void SimConnectInterface::simConnectProcessEvent(const SIMCONNECT_RECV* pData) {
         }
       }
       if (isReverseToggleActive | isReverseToggleKeyActive[0]) {
-        simInputThrottles.throttles[0] = min(1.0, simInputThrottles.throttles[0] + 0.05);
+        simInputThrottles.throttles[0] = min(1.0, simInputThrottles.throttles[0] + 0.025);
       } else {
-        simInputThrottles.throttles[0] = max(-1.0, simInputThrottles.throttles[0] - 0.05);
+        simInputThrottles.throttles[0] = max(-1.0, simInputThrottles.throttles[0] - 0.025);
       }
       if (isReverseToggleActive | isReverseToggleKeyActive[1]) {
-        simInputThrottles.throttles[1] = min(1.0, simInputThrottles.throttles[1] + 0.05);
+        simInputThrottles.throttles[1] = min(1.0, simInputThrottles.throttles[1] + 0.025);
       } else {
-        simInputThrottles.throttles[1] = max(-1.0, simInputThrottles.throttles[1] - 0.05);
+        simInputThrottles.throttles[1] = max(-1.0, simInputThrottles.throttles[1] - 0.025);
       }
       break;
 
@@ -507,9 +507,9 @@ void SimConnectInterface::simConnectProcessEvent(const SIMCONNECT_RECV* pData) {
         }
       }
       if (isReverseToggleActive | isReverseToggleKeyActive[0]) {
-        simInputThrottles.throttles[0] = max(-1.0, simInputThrottles.throttles[0] - 0.1);
+        simInputThrottles.throttles[0] = max(-1.0, simInputThrottles.throttles[0] - 0.05);
       } else {
-        simInputThrottles.throttles[0] = min(1.0, simInputThrottles.throttles[0] + 0.1);
+        simInputThrottles.throttles[0] = min(1.0, simInputThrottles.throttles[0] + 0.05);
       }
       break;
     case 19:
@@ -520,9 +520,9 @@ void SimConnectInterface::simConnectProcessEvent(const SIMCONNECT_RECV* pData) {
         }
       }
       if (isReverseToggleActive | isReverseToggleKeyActive[0]) {
-        simInputThrottles.throttles[0] = min(1.0, simInputThrottles.throttles[0] + 0.1);
+        simInputThrottles.throttles[0] = min(1.0, simInputThrottles.throttles[0] + 0.05);
       } else {
-        simInputThrottles.throttles[0] = max(-1.0, simInputThrottles.throttles[0] - 0.1);
+        simInputThrottles.throttles[0] = max(-1.0, simInputThrottles.throttles[0] - 0.05);
       }
       break;
     case 20:
@@ -533,9 +533,9 @@ void SimConnectInterface::simConnectProcessEvent(const SIMCONNECT_RECV* pData) {
         }
       }
       if (isReverseToggleActive | isReverseToggleKeyActive[0]) {
-        simInputThrottles.throttles[0] = max(-1.0, simInputThrottles.throttles[0] - 0.05);
+        simInputThrottles.throttles[0] = max(-1.0, simInputThrottles.throttles[0] - 0.025);
       } else {
-        simInputThrottles.throttles[0] = min(1.0, simInputThrottles.throttles[0] + 0.05);
+        simInputThrottles.throttles[0] = min(1.0, simInputThrottles.throttles[0] + 0.025);
       }
       break;
     case 21:
@@ -546,9 +546,9 @@ void SimConnectInterface::simConnectProcessEvent(const SIMCONNECT_RECV* pData) {
         }
       }
       if (isReverseToggleActive | isReverseToggleKeyActive[0]) {
-        simInputThrottles.throttles[0] = min(1.0, simInputThrottles.throttles[0] + 0.05);
+        simInputThrottles.throttles[0] = min(1.0, simInputThrottles.throttles[0] + 0.025);
       } else {
-        simInputThrottles.throttles[0] = max(-1.0, simInputThrottles.throttles[0] - 0.05);
+        simInputThrottles.throttles[0] = max(-1.0, simInputThrottles.throttles[0] - 0.025);
       }
       break;
 
@@ -568,9 +568,9 @@ void SimConnectInterface::simConnectProcessEvent(const SIMCONNECT_RECV* pData) {
         }
       }
       if (isReverseToggleActive | isReverseToggleKeyActive[1]) {
-        simInputThrottles.throttles[1] = max(-1.0, simInputThrottles.throttles[1] - 0.1);
+        simInputThrottles.throttles[1] = max(-1.0, simInputThrottles.throttles[1] - 0.05);
       } else {
-        simInputThrottles.throttles[1] = min(1.0, simInputThrottles.throttles[1] + 0.1);
+        simInputThrottles.throttles[1] = min(1.0, simInputThrottles.throttles[1] + 0.05);
       }
       break;
     case 25:
@@ -581,9 +581,9 @@ void SimConnectInterface::simConnectProcessEvent(const SIMCONNECT_RECV* pData) {
         }
       }
       if (isReverseToggleActive | isReverseToggleKeyActive[1]) {
-        simInputThrottles.throttles[1] = min(1.0, simInputThrottles.throttles[1] + 0.1);
+        simInputThrottles.throttles[1] = min(1.0, simInputThrottles.throttles[1] + 0.05);
       } else {
-        simInputThrottles.throttles[1] = max(-1.0, simInputThrottles.throttles[1] - 0.1);
+        simInputThrottles.throttles[1] = max(-1.0, simInputThrottles.throttles[1] - 0.05);
       }
       break;
     case 26:
@@ -594,9 +594,9 @@ void SimConnectInterface::simConnectProcessEvent(const SIMCONNECT_RECV* pData) {
         }
       }
       if (isReverseToggleActive | isReverseToggleKeyActive[1]) {
-        simInputThrottles.throttles[1] = max(-1.0, simInputThrottles.throttles[1] - 0.05);
+        simInputThrottles.throttles[1] = max(-1.0, simInputThrottles.throttles[1] - 0.025);
       } else {
-        simInputThrottles.throttles[1] = min(1.0, simInputThrottles.throttles[1] + 0.05);
+        simInputThrottles.throttles[1] = min(1.0, simInputThrottles.throttles[1] + 0.025);
       }
       break;
     case 27:
@@ -607,9 +607,9 @@ void SimConnectInterface::simConnectProcessEvent(const SIMCONNECT_RECV* pData) {
         }
       }
       if (isReverseToggleActive | isReverseToggleKeyActive[1]) {
-        simInputThrottles.throttles[1] = min(1.0, simInputThrottles.throttles[1] + 0.05);
+        simInputThrottles.throttles[1] = min(1.0, simInputThrottles.throttles[1] + 0.025);
       } else {
-        simInputThrottles.throttles[1] = max(-1.0, simInputThrottles.throttles[1] - 0.05);
+        simInputThrottles.throttles[1] = max(-1.0, simInputThrottles.throttles[1] - 0.025);
       }
       break;
 

@@ -252,6 +252,7 @@ void FlyByWireInterface::initializeThrottles() {
     configFile << "Log = true" << endl;
     configFile << "Enabled = true" << endl;
     configFile << "ReverseOnAxis = false" << endl;
+    configFile << "DetentDeadZone = 2.0" << endl;
     configFile << "DetentReverseFull = -1.00" << endl;
     configFile << "DetentIdle = -1.00" << endl;
     configFile << "DetentClimb = 0.89" << endl;
@@ -264,6 +265,7 @@ void FlyByWireInterface::initializeThrottles() {
   isThrottleLoggingEnabled = configuration.GetBoolean("Throttle", "Log", true);
   isThrottleHandlingEnabled = configuration.GetBoolean("Throttle", "Enabled", true);
   useReverseOnAxis = configuration.GetBoolean("Throttle", "ReverseOnAxis", false);
+  throttleDetentDeadZone = configuration.GetReal("Throttle", "DetentDeadZone", 0.0);
   // read mapping configuration
   vector<pair<double, double>> mappingTable;
   if (useReverseOnAxis) {
@@ -329,6 +331,12 @@ bool FlyByWireInterface::processThrottles() {
     simOutputThrottles.throttleLeverPosition_2 = max(0, simOutputThrottles.throttleLeverPosition_2);
   }
 
+  // add deadzone around detents
+  simOutputThrottles.throttleLeverPosition_1 =
+      calculateDeadzones(throttleDetentDeadZone, simOutputThrottles.throttleLeverPosition_1);
+  simOutputThrottles.throttleLeverPosition_2 =
+      calculateDeadzones(throttleDetentDeadZone, simOutputThrottles.throttleLeverPosition_2);
+
   // if enabled, print values
   if (isThrottleLoggingEnabled) {
     if (lastUseReverseOnAxis != useReverseOnAxis || lastThrottleInput_1 != simInputThrottles.throttles[0] ||
@@ -365,4 +373,19 @@ bool FlyByWireInterface::processThrottles() {
 
   // success
   return true;
+}
+
+double FlyByWireInterface::calculateDeadzones(double deadzone, double input) {
+  double result = calculateDeadzone(deadzone, 0.0, input);
+  result = calculateDeadzone(deadzone, 0.0, result);
+  result = calculateDeadzone(deadzone, 89.0, result);
+  result = calculateDeadzone(deadzone, 95.0, result);
+  return result;
+}
+
+double FlyByWireInterface::calculateDeadzone(double deadzone, double target, double input) {
+  if (input <= (target + deadzone) && input >= (target - deadzone)) {
+    return target;
+  }
+  return input;
 }
