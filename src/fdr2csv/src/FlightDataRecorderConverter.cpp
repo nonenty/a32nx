@@ -46,6 +46,10 @@ void FlightDataRecorderConverter::writeHeader(ofstream& out, const string& delim
   out << "sim.data.autopilot_master_on" << delimiter;
   out << "sim.data.slew_on" << delimiter;
   out << "sim.data.pause_on" << delimiter;
+  out << "sim.data.tracking_mode_on_override" << delimiter;
+  out << "sim.data.autopilot_custom_on" << delimiter;
+  out << "sim.data.autopilot_custom_Theta_c_deg" << delimiter;
+  out << "sim.data.autopilot_custom_Phi_c_deg" << delimiter;
   out << "sim.data.simulation_rate" << delimiter;
   out << "sim.data.ice_structure_percent" << delimiter;
   out << "sim.data.linear_cl_alpha_per_deg" << delimiter;
@@ -152,6 +156,10 @@ void FlightDataRecorderConverter::writeStruct(ofstream& out, const string& delim
   out << data.sim.data.autopilot_master_on << delimiter;
   out << data.sim.data.slew_on << delimiter;
   out << data.sim.data.pause_on << delimiter;
+  out << data.sim.data.tracking_mode_on_override << delimiter;
+  out << data.sim.data.autopilot_custom_on << delimiter;
+  out << data.sim.data.autopilot_custom_Theta_c_deg << delimiter;
+  out << data.sim.data.autopilot_custom_Phi_c_deg << delimiter;
   out << data.sim.data.simulation_rate << delimiter;
   out << data.sim.data.ice_structure_percent << delimiter;
   out << data.sim.data.linear_cl_alpha_per_deg << delimiter;

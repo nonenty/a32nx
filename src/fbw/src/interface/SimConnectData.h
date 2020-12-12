@@ -94,3 +94,10 @@ struct SimOutputThrottles {
   double throttleLeverPosition_1;
   double throttleLeverPosition_2;
 };
+
+struct SimInputClientData {
+  bool enableTrackingMode;
+  bool enableAP;
+  double targetTheta;
+  double targetPhi;
+};

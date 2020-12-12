@@ -55,6 +55,8 @@ class SimConnectInterface {
 
   SimInputThrottles getSimInputThrottles();
 
+  SimInputClientData getSimInputClientData();
+
   bool getIsAnyReverseToggleActive();
   bool getIsReverseToggleActive(int index);
   bool getIsAutothrottlesArmed();
@@ -73,17 +75,23 @@ class SimConnectInterface {
   bool isAutothrustArmed = false;
   double idleThrottleInput = -1.0;
 
+  SimInputClientData simInputClientData = {};
+
   bool prepareSimDataSimConnectDataDefinitions();
 
   bool prepareSimInputSimConnectDataDefinitions(bool isThrottleHandlingEnabled);
 
   bool prepareSimOutputSimConnectDataDefinitions();
 
+  bool prepareClientDataDefinitions();
+
   void simConnectProcessDispatchMessage(SIMCONNECT_RECV* pData, DWORD* cbData);
 
-  void simConnectProcessEvent(const SIMCONNECT_RECV* pData);
+  void simConnectProcessEvent(const SIMCONNECT_RECV_EVENT* event);
 
-  void simConnectProcessSimObjectDataByType(const SIMCONNECT_RECV* pData);
+  void simConnectProcessSimObjectDataByType(const SIMCONNECT_RECV_SIMOBJECT_DATA_BYTYPE* data);
+
+  void simConnectProcessClientData(const SIMCONNECT_RECV_CLIENT_DATA* data);
 
   bool sendData(SIMCONNECT_DATA_DEFINITION_ID id, DWORD size, void* data);
 

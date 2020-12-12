@@ -45,6 +45,7 @@ bool SimConnectInterface::connect(bool isThrottleHandlingEnabled, double idleThr
     bool prepareResult = prepareSimDataSimConnectDataDefinitions();
     prepareResult &= prepareSimInputSimConnectDataDefinitions(isThrottleHandlingEnabled);
     prepareResult &= prepareSimOutputSimConnectDataDefinitions();
+    prepareResult &= prepareClientDataDefinitions();
     // check result
     if (!prepareResult) {
       // failed to add data definition -> disconnect
@@ -196,6 +197,35 @@ bool SimConnectInterface::prepareSimOutputSimConnectDataDefinitions() {
   return result;
 }
 
+bool SimConnectInterface::prepareClientDataDefinitions() {
+  // variable for result
+  HRESULT result;
+
+  // map name of client data to id
+  result = SimConnect_MapClientDataNameToID(hSimConnect, "A32NX_FBW", 0);
+
+  result &= SimConnect_CreateClientData(hSimConnect, 0, sizeof(simInputClientData),
+                                        SIMCONNECT_CREATE_CLIENT_DATA_FLAG_DEFAULT);
+
+  // add data definitions
+  result &= SimConnect_AddToClientDataDefinition(hSimConnect, 0, SIMCONNECT_CLIENTDATAOFFSET_AUTO,
+                                                 SIMCONNECT_CLIENTDATATYPE_INT32);
+
+  result &= SimConnect_AddToClientDataDefinition(hSimConnect, 0, SIMCONNECT_CLIENTDATAOFFSET_AUTO,
+                                                 SIMCONNECT_CLIENTDATATYPE_INT32);
+
+  result &= SimConnect_AddToClientDataDefinition(hSimConnect, 0, SIMCONNECT_CLIENTDATAOFFSET_AUTO,
+                                                 SIMCONNECT_CLIENTDATATYPE_FLOAT64);
+
+  result &= SimConnect_AddToClientDataDefinition(hSimConnect, 0, SIMCONNECT_CLIENTDATAOFFSET_AUTO,
+                                                 SIMCONNECT_CLIENTDATATYPE_FLOAT64);
+  // request data to be updated when set
+  result &= SimConnect_RequestClientData(hSimConnect, 0, 0, 0, SIMCONNECT_CLIENT_DATA_PERIOD_ON_SET);
+
+  // return result
+  return SUCCEEDED(result);
+}
+
 bool SimConnectInterface::requestReadData() {
   // check if we are connected
   if (!isConnected) {
@@ -299,6 +329,10 @@ SimInputThrottles SimConnectInterface::getSimInputThrottles() {
   return simInputThrottles;
 }
 
+SimInputClientData SimConnectInterface::getSimInputClientData() {
+  return simInputClientData;
+}
+
 bool SimConnectInterface::getIsAutothrottlesArmed() {
   return isAutothrustArmed;
 }
@@ -326,12 +360,17 @@ void SimConnectInterface::simConnectProcessDispatchMessage(SIMCONNECT_RECV* pDat
 
     case SIMCONNECT_RECV_ID_EVENT:
       // get event
-      simConnectProcessEvent(pData);
+      simConnectProcessEvent(static_cast<SIMCONNECT_RECV_EVENT*>(pData));
       break;
 
     case SIMCONNECT_RECV_ID_SIMOBJECT_DATA_BYTYPE:
       // process data
-      simConnectProcessSimObjectDataByType(pData);
+      simConnectProcessSimObjectDataByType(static_cast<SIMCONNECT_RECV_SIMOBJECT_DATA_BYTYPE*>(pData));
+      break;
+
+    case SIMCONNECT_RECV_ID_CLIENT_DATA:
+      // process data
+      simConnectProcessClientData(static_cast<SIMCONNECT_RECV_CLIENT_DATA*>(pData));
       break;
 
     case SIMCONNECT_RECV_ID_EXCEPTION:
@@ -347,10 +386,7 @@ void SimConnectInterface::simConnectProcessDispatchMessage(SIMCONNECT_RECV* pDat
   }
 }
 
-void SimConnectInterface::simConnectProcessEvent(const SIMCONNECT_RECV* pData) {
-  // get event
-  auto* event = (SIMCONNECT_RECV_EVENT*)pData;
-
+void SimConnectInterface::simConnectProcessEvent(const SIMCONNECT_RECV_EVENT* event) {
   // process depending on event id
   switch (event->uEventID) {
     case 0:
@@ -635,21 +671,38 @@ void SimConnectInterface::simConnectProcessEvent(const SIMCONNECT_RECV* pData) {
   }
 }
 
-void SimConnectInterface::simConnectProcessSimObjectDataByType(const SIMCONNECT_RECV* pData) {
-  // get data object
-  auto* simObjectDataByType = (SIMCONNECT_RECV_SIMOBJECT_DATA_BYTYPE*)pData;
-
+void SimConnectInterface::simConnectProcessSimObjectDataByType(const SIMCONNECT_RECV_SIMOBJECT_DATA_BYTYPE* data) {
   // process depending on request id
-  switch (simObjectDataByType->dwRequestID) {
+  switch (data->dwRequestID) {
     case 0:
       // store aircraft data
-      simData = *((SimData*)&simObjectDataByType->dwData);
+      simData = *((SimData*)&data->dwData);
       return;
 
     default:
       // print unknown request id
       cout << "WASM: Unknown request id in SimConnect connection: ";
-      cout << simObjectDataByType->dwRequestID << endl;
+      cout << data->dwRequestID << endl;
+      return;
+  }
+}
+
+void SimConnectInterface::simConnectProcessClientData(const SIMCONNECT_RECV_CLIENT_DATA* data) {
+  // process depending on request id
+  switch (data->dwRequestID) {
+    case 0:
+      // store aircraft data
+      simInputClientData = *((SimInputClientData*)&data->dwData);
+      cout << "WASM: enableAP           = " << simInputClientData.enableAP << endl;
+      cout << "WASM: enableTrackingMode = " << simInputClientData.enableTrackingMode << endl;
+      cout << "WASM: targetTheta        = " << simInputClientData.targetTheta << endl;
+      cout << "WASM: targetPhi          = " << simInputClientData.targetPhi << endl;
+      return;
+
+    default:
+      // print unknown request id
+      cout << "WASM: Unknown request id in SimConnect connection: ";
+      cout << data->dwRequestID << endl;
       return;
   }
 }
