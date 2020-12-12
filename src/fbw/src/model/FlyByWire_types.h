@@ -51,6 +51,10 @@ typedef struct {
   real_T autopilot_master_on;
   real_T slew_on;
   real_T pause_on;
+  real_T tracking_mode_on_override;
+  real_T autopilot_custom_on;
+  real_T autopilot_custom_Theta_c_deg;
+  real_T autopilot_custom_Phi_c_deg;
   real_T simulation_rate;
   real_T ice_structure_percent;
   real_T linear_cl_alpha_per_deg;
@@ -147,6 +151,10 @@ typedef struct {
   real_T autopilot_master_on;
   real_T slew_on;
   real_T pause_on;
+  real_T tracking_mode_on_override;
+  real_T autopilot_custom_on;
+  real_T autopilot_custom_Theta_c_deg;
+  real_T autopilot_custom_Phi_c_deg;
   real_T simulation_rate;
   real_T ice_structure_percent;
   real_T linear_cl_alpha_per_deg;
