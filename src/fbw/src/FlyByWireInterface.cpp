@@ -43,6 +43,10 @@ bool FlyByWireInterface::connect() {
   idThrottlePosition_1 = register_named_variable("A32NX_THROTTLE_POSITION_1");
   idThrottlePosition_2 = register_named_variable("A32NX_THROTTLE_POSITION_2");
 
+  // register L variable for flight director
+  idFlightDirectorBank = register_named_variable("A32NX_FLIGHT_DIRECTOR_BANK");
+  idFlightDirectorPitch = register_named_variable("A32NX_FLIGHT_DIRECTOR_PITCH");
+
   // initialize throttle system
   initializeThrottles();
 
@@ -115,6 +119,10 @@ bool FlyByWireInterface::getModelInputDataFromSim(double sampleTime) {
     isInPause = true;
   }
   previousSimulationTime = simData.simulationTime;
+
+  // fill flight director variables
+  set_named_variable_value(idFlightDirectorBank, -1.0 * clientDataAutopilot.flightDirectorPhi);
+  set_named_variable_value(idFlightDirectorPitch, -1.0 * clientDataAutopilot.flightDirectorTheta);
 
   // fill time into model
   model.FlyByWire_U.in.time.dt = sampleTime;

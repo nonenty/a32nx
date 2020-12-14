@@ -69,6 +69,9 @@ class FlyByWireInterface {
   ID idThrottlePosition_1;
   ID idThrottlePosition_2;
 
+  ID idFlightDirectorBank;
+  ID idFlightDirectorPitch;
+
   bool getModelInputDataFromSim(double sampleTime);
 
   bool writeModelOuputDataToSim();

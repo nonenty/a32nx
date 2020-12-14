@@ -680,7 +680,7 @@ var Jet_PFD_FlightDirector;
                     this.headingLine.setAttribute("transform", "translate(" + 255 + ", 0)");
                 } else {
                     const currentPlaneBank = Simplane.getBank();
-                    const currentFDBank = Simplane.getFlightDirectorBank();
+                    const currentFDBank = SimVar.GetSimVarValue("L:A32NX_FLIGHT_DIRECTOR_BANK", "number");
                     this._fdBank += (currentFDBank - this._fdBank) * Math.min(1.0, _deltaTime * 0.001);
                     const lineX = Math.max(-1.0, Math.min(1.0, (currentPlaneBank - this._fdBank) / this.getFDBankLimit())) * this.getFDBankDisplayLimit();
                     this.headingLine.setAttribute("transform", "translate(" + lineX + ", 0)");
@@ -688,7 +688,7 @@ var Jet_PFD_FlightDirector;
             }
             if (this.pitchLine != null) {
                 const currentPlanePitch = Simplane.getPitch();
-                let currentFDPitch = Simplane.getFlightDirectorPitch();
+                let currentFDPitch = SimVar.GetSimVarValue("L:A32NX_FLIGHT_DIRECTOR_PITCH", "number");
                 const altAboveGround = Simplane.getAltitudeAboveGround();
                 const _bForcedFdPitchThisFrame = false;
                 if (altAboveGround > 0 && altAboveGround < 10) {
@@ -831,8 +831,8 @@ var Jet_PFD_FlightDirector;
         }
         refresh(_deltaTime) {
             if (this.group != null) {
-                const x = this.calculatePosXFromBank(Simplane.getBank(), Simplane.getFlightDirectorBank());
-                const y = this.calculatePosYFromPitch(Simplane.getPitch(), Simplane.getFlightDirectorPitch());
+                const x = this.calculatePosXFromBank(Simplane.getBank(), SimVar.GetSimVarValue("L:A32NX_FLIGHT_DIRECTOR_BANK", "number"));
+                const y = this.calculatePosYFromPitch(Simplane.getPitch(), SimVar.GetSimVarValue("L:A32NX_FLIGHT_DIRECTOR_PITCH", "number"));
                 const angle = -Simplane.getBank();
                 this.group.setAttribute("transform", "translate(" + x + ", " + y + ") rotate(" + angle + ")");
             }
