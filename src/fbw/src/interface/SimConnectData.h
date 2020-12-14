@@ -100,4 +100,6 @@ struct SimInputClientData {
   bool enableAP;
   double targetTheta;
   double targetPhi;
+  double flightDirectorTheta;
+  double flightDirectorPhi;
 };
