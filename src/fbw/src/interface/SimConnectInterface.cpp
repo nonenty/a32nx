@@ -217,9 +217,19 @@ bool SimConnectInterface::prepareClientDataDefinitions() {
                                                  SIMCONNECT_CLIENTDATATYPE_FLOAT64);
   result &= SimConnect_AddToClientDataDefinition(hSimConnect, 0, SIMCONNECT_CLIENTDATAOFFSET_AUTO,
                                                  SIMCONNECT_CLIENTDATATYPE_FLOAT64);
-
   // request data to be updated when set
   result &= SimConnect_RequestClientData(hSimConnect, 0, 0, 0, SIMCONNECT_CLIENT_DATA_PERIOD_ON_SET);
+
+  // map client id for flight guidance
+  result = SimConnect_MapClientDataNameToID(hSimConnect, "A32NX_CLIENT_DATA_FLIGHT_GUIDANCE", 1);
+  // create client data or flight guidance
+  result &= SimConnect_CreateClientData(hSimConnect, 1, sizeof(SimOutputClientDataFlightGuidance),
+                                        SIMCONNECT_CREATE_CLIENT_DATA_FLAG_DEFAULT);
+  // add data definitions for flight guidance
+  result &= SimConnect_AddToClientDataDefinition(hSimConnect, 1, SIMCONNECT_CLIENTDATAOFFSET_AUTO,
+                                                 SIMCONNECT_CLIENTDATATYPE_FLOAT64);
+  result &= SimConnect_AddToClientDataDefinition(hSimConnect, 1, SIMCONNECT_CLIENTDATAOFFSET_AUTO,
+                                                 SIMCONNECT_CLIENTDATATYPE_FLOAT64);
 
   // return result
   return SUCCEEDED(result);
@@ -305,6 +315,26 @@ bool SimConnectInterface::sendAutoThrustArmEvent() {
   // send event
   HRESULT result = SimConnect_TransmitClientEvent(hSimConnect, 0, 3, 0, SIMCONNECT_GROUP_PRIORITY_HIGHEST,
                                                   SIMCONNECT_EVENT_FLAG_GROUPID_IS_PRIORITY);
+
+  // check result of data request
+  if (result != S_OK) {
+    // request failed
+    return false;
+  }
+
+  // success
+  return true;
+}
+
+bool SimConnectInterface::setSimOutputClientDataFlightGuidance(SimOutputClientDataFlightGuidance output) {
+  // check if we are connected
+  if (!isConnected) {
+    return false;
+  }
+
+  // send event
+  HRESULT result =
+      SimConnect_SetClientData(hSimConnect, 1, 1, SIMCONNECT_CLIENT_DATA_SET_FLAG_DEFAULT, 0, sizeof(output), &output);
 
   // check result of data request
   if (result != S_OK) {

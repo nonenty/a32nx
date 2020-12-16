@@ -102,3 +102,8 @@ struct SimInputClientDataAutopilot {
   double flightDirectorPhi;
   double autopilotPhi;
 };
+
+struct SimOutputClientDataFlightGuidance {
+  double crossTrackError;
+  double trackAngleError;
+};

@@ -72,6 +72,9 @@ class FlyByWireInterface {
   ID idFlightDirectorBank;
   ID idFlightDirectorPitch;
 
+  ID idFlightGuidanceCrossTrackError;
+  ID idFlightGuidanceTrackAngleError;
+
   bool getModelInputDataFromSim(double sampleTime);
 
   bool writeModelOuputDataToSim();

@@ -47,6 +47,10 @@ bool FlyByWireInterface::connect() {
   idFlightDirectorBank = register_named_variable("A32NX_FLIGHT_DIRECTOR_BANK");
   idFlightDirectorPitch = register_named_variable("A32NX_FLIGHT_DIRECTOR_PITCH");
 
+  // register L variables for flight guidance
+  idFlightGuidanceCrossTrackError = register_named_variable("A32NX_FG_CROSS_TRACK_ERROR");
+  idFlightGuidanceTrackAngleError = register_named_variable("A32NX_FG_TRACK_ANGLE_ERROR");
+
   // initialize throttle system
   initializeThrottles();
 
@@ -219,6 +223,12 @@ bool FlyByWireInterface::getModelInputDataFromSim(double sampleTime) {
   model.FlyByWire_U.in.input.delta_eta_pos = -1.0 * sideStickPositionY;
   model.FlyByWire_U.in.input.delta_xi_pos = -1.0 * sideStickPositionX;
   model.FlyByWire_U.in.input.delta_zeta_pos = rudderPosition;
+
+  // update client data for flight guidance
+  SimOutputClientDataFlightGuidance clientDataFlightGuidance = {
+      get_named_variable_value(idFlightGuidanceCrossTrackError),
+      get_named_variable_value(idFlightGuidanceTrackAngleError)};
+  simConnectInterface.setSimOutputClientDataFlightGuidance(clientDataFlightGuidance);
 
   // success
   return true;
