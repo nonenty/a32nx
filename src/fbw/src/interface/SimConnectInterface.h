@@ -55,7 +55,7 @@ class SimConnectInterface {
 
   SimInputThrottles getSimInputThrottles();
 
-  SimInputClientData getSimInputClientData();
+  SimInputClientDataAutopilot getSimInputClientDataAutopilot();
 
   bool getIsAnyReverseToggleActive();
   bool getIsReverseToggleActive(int index);
@@ -75,7 +75,7 @@ class SimConnectInterface {
   bool isAutothrustArmed = false;
   double idleThrottleInput = -1.0;
 
-  SimInputClientData simInputClientData = {};
+  SimInputClientDataAutopilot clientDataAutopilot = {};
 
   bool prepareSimDataSimConnectDataDefinitions();
 

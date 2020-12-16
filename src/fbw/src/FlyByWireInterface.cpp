@@ -107,7 +107,7 @@ bool FlyByWireInterface::getModelInputDataFromSim(double sampleTime) {
   // get data from interface
   SimData simData = simConnectInterface.getSimData();
   SimInput simInput = simConnectInterface.getSimInput();
-  SimInputClientData simInputClientData = simConnectInterface.getSimInputClientData();
+  SimInputClientDataAutopilot clientDataAutopilot = simConnectInterface.getSimInputClientDataAutopilot();
 
   // detect pause
   bool isInPause = false;
@@ -157,10 +157,10 @@ bool FlyByWireInterface::getModelInputDataFromSim(double sampleTime) {
   model.FlyByWire_U.in.data.autopilot_master_on = simData.autopilot_master_on;
   model.FlyByWire_U.in.data.slew_on = simData.slew_on;
   model.FlyByWire_U.in.data.pause_on = isInPause;
-  model.FlyByWire_U.in.data.autopilot_custom_on = simInputClientData.enableAP;
-  model.FlyByWire_U.in.data.autopilot_custom_Theta_c_deg = simInputClientData.targetTheta;
-  model.FlyByWire_U.in.data.autopilot_custom_Phi_c_deg = simInputClientData.targetPhi;
-  model.FlyByWire_U.in.data.tracking_mode_on_override = simInputClientData.enableTrackingMode;
+  model.FlyByWire_U.in.data.autopilot_custom_on = clientDataAutopilot.enableAutopilot;
+  model.FlyByWire_U.in.data.autopilot_custom_Theta_c_deg = clientDataAutopilot.autopilotTheta;
+  model.FlyByWire_U.in.data.autopilot_custom_Phi_c_deg = clientDataAutopilot.autopilotPhi;
+  model.FlyByWire_U.in.data.tracking_mode_on_override = 0;
   model.FlyByWire_U.in.data.simulation_rate = simData.simulation_rate;
   model.FlyByWire_U.in.data.ice_structure_percent = simData.ice_structure_percent;
   model.FlyByWire_U.in.data.linear_cl_alpha_per_deg = simData.linear_cl_alpha_per_deg;
