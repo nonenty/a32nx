@@ -95,11 +95,10 @@ struct SimOutputThrottles {
   double throttleLeverPosition_2;
 };
 
-struct SimInputClientData {
-  bool enableTrackingMode;
-  bool enableAP;
-  double targetTheta;
-  double targetPhi;
+struct SimInputClientDataAutopilot {
+  bool enableAutopilot;
   double flightDirectorTheta;
+  double autopilotTheta;
   double flightDirectorPhi;
+  double autopilotPhi;
 };

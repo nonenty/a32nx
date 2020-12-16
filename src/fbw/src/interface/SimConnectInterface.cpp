@@ -201,17 +201,14 @@ bool SimConnectInterface::prepareClientDataDefinitions() {
   // variable for result
   HRESULT result;
 
-  // map name of client data to id
-  result = SimConnect_MapClientDataNameToID(hSimConnect, "A32NX_FBW", 0);
-
-  result &= SimConnect_CreateClientData(hSimConnect, 0, sizeof(simInputClientData),
+  // map client id for AP
+  result = SimConnect_MapClientDataNameToID(hSimConnect, "A32NX_CLIENT_DATA_AUTOPILOT", 0);
+  // create client data
+  result &= SimConnect_CreateClientData(hSimConnect, 0, sizeof(SimInputClientDataAutopilot),
                                         SIMCONNECT_CREATE_CLIENT_DATA_FLAG_DEFAULT);
-
   // add data definitions
   result &= SimConnect_AddToClientDataDefinition(hSimConnect, 0, SIMCONNECT_CLIENTDATAOFFSET_AUTO,
-                                                 SIMCONNECT_CLIENTDATATYPE_INT32);
-  result &= SimConnect_AddToClientDataDefinition(hSimConnect, 0, SIMCONNECT_CLIENTDATAOFFSET_AUTO,
-                                                 SIMCONNECT_CLIENTDATATYPE_INT32);
+                                                 SIMCONNECT_CLIENTDATATYPE_INT64);
   result &= SimConnect_AddToClientDataDefinition(hSimConnect, 0, SIMCONNECT_CLIENTDATAOFFSET_AUTO,
                                                  SIMCONNECT_CLIENTDATATYPE_FLOAT64);
   result &= SimConnect_AddToClientDataDefinition(hSimConnect, 0, SIMCONNECT_CLIENTDATAOFFSET_AUTO,
@@ -331,8 +328,8 @@ SimInputThrottles SimConnectInterface::getSimInputThrottles() {
   return simInputThrottles;
 }
 
-SimInputClientData SimConnectInterface::getSimInputClientData() {
-  return simInputClientData;
+SimInputClientDataAutopilot SimConnectInterface::getSimInputClientDataAutopilot() {
+  return clientDataAutopilot;
 }
 
 bool SimConnectInterface::getIsAutothrottlesArmed() {
@@ -694,11 +691,7 @@ void SimConnectInterface::simConnectProcessClientData(const SIMCONNECT_RECV_CLIE
   switch (data->dwRequestID) {
     case 0:
       // store aircraft data
-      simInputClientData = *((SimInputClientData*)&data->dwData);
-      cout << "WASM: enableAP           = " << simInputClientData.enableAP << endl;
-      cout << "WASM: enableTrackingMode = " << simInputClientData.enableTrackingMode << endl;
-      cout << "WASM: targetTheta        = " << simInputClientData.targetTheta << endl;
-      cout << "WASM: targetPhi          = " << simInputClientData.targetPhi << endl;
+      clientDataAutopilot = *((SimInputClientDataAutopilot*)&data->dwData);
       return;
 
     default:
