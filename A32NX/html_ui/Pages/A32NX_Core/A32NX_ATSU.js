@@ -135,17 +135,16 @@ const lbsToKg = (value) => {
  */
 const getSimBriefOfp = (mcdu, updateView) => {
     const simBriefUsername = NXDataStore.get("CONFIG_SIMBRIEF_USERNAME", "");
-    const simBriefUserId = NXDataStore.get("CONFIG_SIMBRIEF_USERID", "");
 
-    if (!simBriefUsername && !simBriefUserId) {
+    if (!simBriefUsername) {
         mcdu.showErrorMessage("NO SIMBRIEF USER");
-        throw ("No simbrief username/user ID provided");
+        throw ("No simbrief username provided");
     }
 
     mcdu.simbrief["sendStatus"] = "REQUESTING";
     updateView();
 
-    return SimBriefApi.getSimBriefOfp(simBriefUsername, simBriefUserId)
+    return SimBriefApi.getSimBriefOfp(simBriefUsername)
         .then(data => {
             mcdu.simbrief["units"] = data.params.units;
             mcdu.simbrief["route"] = data.general.route;
